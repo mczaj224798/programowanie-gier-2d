@@ -1,12 +1,13 @@
 <!doctype html>
 
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Canvas</title>
-  <meta name="author" content="Maciej Czajkowski">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Canvas</title>
+    <meta name="author" content="Maciej Czajkowski">
 
 
 
@@ -14,8 +15,49 @@
 </head>
 
 <body>
-  <!-- your content here... -->
-  TestTest
-  <script src="js/scripts.js"></script>
+    <!-- your content here... -->
+    TestTest
+    <canvas id="canvas" width="800" height="600">
+
+    </canvas>
+
+    <canvas id="canvas2" width="800" height="600">
+
+    </canvas>
+
+    <canvas id="canvas3" width="800" height="600">
+
+    </canvas>
+    <script>
+
+        function drawCircle(canvasId, color) {
+            var canvas = document.getElementById(canvasId);
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                ctx.beginPath();
+                var x = 400; // x coordinate
+                var y = 300; // y coordinate
+                var radius = 200; // Arc radius
+                var startAngle = 0; // Starting point on circle
+                var endAngle = 2 * Math.PI; // End point on circle
+                ctx.arc(x, y, radius, startAngle, endAngle);
+                ctx.fillStyle = color;
+                ctx.fill();
+            }
+        }
+
+        var color = "green";
+        drawCircle('canvas', color);
+        setInterval(() => {  
+            if ( color == "green") {
+                color = "blue";
+            } else {
+                color = "green"
+            }
+            drawCircle('canvas', color);
+         }, 1000);
+  
+    </script>
 </body>
+
 </html>
