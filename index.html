@@ -29,33 +29,81 @@
 
     </canvas>
     <script>
+        const TIME_INTERVAL = 1000; // 1000 ms
+        const RGB_MAX_VALUE = 255;
+        const CANVAS_WIDTH = 800;
+        const CANVAS_HEIGHT = 600
 
-        function drawCircle(canvasId, color) {
+        function drawCircle(canvasId, x, y, radius, red, green, blue) {
             var canvas = document.getElementById(canvasId);
             if (canvas.getContext) {
                 var ctx = canvas.getContext('2d');
                 ctx.beginPath();
-                var x = 400; // x coordinate
-                var y = 300; // y coordinate
-                var radius = 200; // Arc radius
+                // var x = 400; // x coordinate
+                // var y = 300; // y coordinate
+                // var radius = 200; // Arc radius
                 var startAngle = 0; // Starting point on circle
                 var endAngle = 2 * Math.PI; // End point on circle
                 ctx.arc(x, y, radius, startAngle, endAngle);
-                ctx.fillStyle = color;
+                ctx.fillStyle = 'rgb(' + red + ','+ green + ',' + blue +')';
                 ctx.fill();
             }
         }
 
+        function clearCircle(canvasId) {
+            var canvas = document.getElementById(canvasId);
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                ctx.clear();
+                // // var x = 400; // x coordinate
+                // // var y = 300; // y coordinate
+                // // var radius = 200; // Arc radius
+                // var startAngle = 0; // Starting point on circle
+                // var endAngle = 2 * Math.PI; // End point on circle
+                // ctx.arc(x, y, radius, startAngle, endAngle);
+                // ctx.fillStyle = 'rgb(' + red + ','+ green + ',' + blue +')';
+                // ctx.fill();
+            }
+        }
+
+        function clearCanvas(canvasId) {
+            var canvas = document.getElementById(canvasId);
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+            }
+        }
+
+
+        var count = 0;
+
+        //starting circle
+        drawCircle('canvas', 0, RGB_MAX_VALUE, 0);
         var color = "green";
-        drawCircle('canvas', color);
+        const X = 400;
+        const Y = 300;
+
+        const RADIUS = 100;
+        const HEIGHT = Y - RADIUS;
+
         setInterval(() => {  
             if ( color == "green") {
-                color = "blue";
+                clearCanvas('canvas');
+                drawCircle('canvas', X, Y, RADIUS, 0, (RGB_MAX_VALUE - count), count);
             } else {
-                color = "green"
+                clearCanvas('canvas');
+                drawCircle('canvas', X, Y, RADIUS, 0, count, (RGB_MAX_VALUE - count));
             }
-            drawCircle('canvas', color);
-         }, 1000);
+            count++;
+            if (count == RGB_MAX_VALUE) {
+                count = 0;
+                if (color == "green") {
+                    color = "blue"
+                } else {
+                    color = "green";
+                }
+            }
+         }, TIME_INTERVAL/RGB_MAX_VALUE);
   
     </script>
 </body>
