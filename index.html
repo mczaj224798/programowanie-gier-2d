@@ -4,44 +4,34 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <title>Canvas</title>
     <meta name="author" content="Maciej Czajkowski">
-
-
-
-
 </head>
 
 <body>
-    <!-- your content here... -->
-    TestTest
     <canvas id="canvas" width="800" height="600">
 
     </canvas>
 
-    <canvas id="canvas2" width="800" height="600">
-
-    </canvas>
-
-    <canvas id="canvas3" width="800" height="600">
-
-    </canvas>
     <script>
+        // constants
         const TIME_INTERVAL = 1000; // 1000 ms
         const RGB_MAX_VALUE = 255;
         const CANVAS_WIDTH = 800;
         const CANVAS_HEIGHT = 600
 
+        // circle dimensions
+        const X = 400;
+        const Y = 300;
+        const RADIUS = 100;
+        const HEIGHT = Y - RADIUS;
+
+        // wrapper for drawing circle
         function drawCircle(canvasId, x, y, radius, red, green, blue) {
             var canvas = document.getElementById(canvasId);
             if (canvas.getContext) {
                 var ctx = canvas.getContext('2d');
                 ctx.beginPath();
-                // var x = 400; // x coordinate
-                // var y = 300; // y coordinate
-                // var radius = 200; // Arc radius
                 var startAngle = 0; // Starting point on circle
                 var endAngle = 2 * Math.PI; // End point on circle
                 ctx.arc(x, y, radius, startAngle, endAngle);
@@ -50,22 +40,7 @@
             }
         }
 
-        function clearCircle(canvasId) {
-            var canvas = document.getElementById(canvasId);
-            if (canvas.getContext) {
-                var ctx = canvas.getContext('2d');
-                ctx.clear();
-                // // var x = 400; // x coordinate
-                // // var y = 300; // y coordinate
-                // // var radius = 200; // Arc radius
-                // var startAngle = 0; // Starting point on circle
-                // var endAngle = 2 * Math.PI; // End point on circle
-                // ctx.arc(x, y, radius, startAngle, endAngle);
-                // ctx.fillStyle = 'rgb(' + red + ','+ green + ',' + blue +')';
-                // ctx.fill();
-            }
-        }
-
+        // wrapper for clearing whole canvas
         function clearCanvas(canvasId) {
             var canvas = document.getElementById(canvasId);
             if (canvas.getContext) {
@@ -77,24 +52,21 @@
 
         var count = 0;
 
-        //starting circle
+        //starting circle - green
         drawCircle('canvas', 0, RGB_MAX_VALUE, 0);
         var color = "green";
-        const X = 400;
-        const Y = 300;
-
-        const RADIUS = 100;
-        const HEIGHT = Y - RADIUS;
 
         setInterval(() => {  
+            clearCanvas('canvas');
+
             if ( color == "green") {
-                clearCanvas('canvas');
-                drawCircle('canvas', X, Y, RADIUS, 0, (RGB_MAX_VALUE - count), count);
+                drawCircle('canvas', X, Y+count*(HEIGHT/RGB_MAX_VALUE), RADIUS, 0, (RGB_MAX_VALUE - count), count);
             } else {
-                clearCanvas('canvas');
-                drawCircle('canvas', X, Y, RADIUS, 0, count, (RGB_MAX_VALUE - count));
+                drawCircle('canvas', X, CANVAS_HEIGHT-RADIUS-count*(HEIGHT/RGB_MAX_VALUE), RADIUS, 0, count, (RGB_MAX_VALUE - count));
             }
             count++;
+
+            // reset counter and toggle color
             if (count == RGB_MAX_VALUE) {
                 count = 0;
                 if (color == "green") {
